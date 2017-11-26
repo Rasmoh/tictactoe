@@ -10,7 +10,7 @@ import com.rasmoh.tictactoe.controllers.HomeController
 
 class MainActivity : AppCompatActivity() {
 
-    var router: Router? = null
+    lateinit var router: Router
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,15 +18,13 @@ class MainActivity : AppCompatActivity() {
 
         val container: ViewGroup = findViewById(R.id.controller_container)
         router = Conductor.attachRouter(this, container, savedInstanceState)
-        val myRouter = router
-        if (myRouter != null && !myRouter.hasRootController()) {
-            myRouter.setRoot(RouterTransaction.with(HomeController()))
+        if (!router.hasRootController()) {
+            router.setRoot(RouterTransaction.with(HomeController()))
         }
     }
 
     override fun onBackPressed() {
-        val myRouter = router
-        if (myRouter != null && !myRouter.handleBack()) {
+        if (!router.handleBack()) {
             super.onBackPressed()
         }
     }
